@@ -38,8 +38,7 @@ runs:
         key: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
         
     - shell: bash
-      run: |
-      	echo Cached the first path ${{ env.FIRST_PATH }} as ${{ env.FIRST_NAME }}.
+      run: echo Cached the first path ${{ env.FIRST_PATH }} as ${{ env.FIRST_NAME }}.
 
     - name: test my example action 
       uses: amhelderman/ci-github-action-save-data@v1
