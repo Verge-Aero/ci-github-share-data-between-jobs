@@ -1,24 +1,51 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'Save Data'
+description: 'Save a list of files with a list of keys'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  path_list:  # id of input
+    description: 'List of file paths separated by spaces'
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+    default: ''
+  name_list:  # id of input
+    description: 'List of names for each file separated by spaces'
+    required: true
+    default: ''
+#outputs:
+#  random-number:
+#    description: "Random number"
+#    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - name: Get first part of artifact and rest of artifact
       shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.sh
-      shell: bash
+      run: |
+          FIRST_PATH=$(cat ${{ inputs.path_list }} | cut -d " " -f 1)
+          REST_OF_PATHS=$(cat ${{ inputs.path_list }} | cut -d " " -f2-)
+          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
+          echo "REST_OF_PATHS=$REST_OF_PATHS" >> $GITHUB_ENV
+          
+          FIRST_NAME=$(cat ${{ inputs.name_list }} | cut -d " " -f 1)
+          REST_OF_NAMES=$(cat ${{ inputs.name_list }} | cut -d " " -f2-)
+          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
+          echo "REST_OF_NAMES=$REST_OF_NAMES" >> $GITHUB_ENV
+  
+    - name: Cache maestro directory
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-maestro
+      with:
+        path: ${{ env.FIRST_PATH }}
+        key: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
+        
+    - shell: bash
+      run: |
+      	echo Cached the first path ${{ env.FIRST_PATH }} as ${{ env.FIRST_NAME }}.
 
+    - name: test my example action 
+      uses: amhelderman/ci-github-action-save-data@v1
+      with:
+        path_list: ${{ env.REST_OF_PATH_LIST }}
+        name_list: ${{ env.REST_OF_NAME_LIST }}
+        
+
+      
