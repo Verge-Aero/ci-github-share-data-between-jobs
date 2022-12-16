@@ -19,13 +19,13 @@ runs:
     - name: Get first part of artifact and rest of artifact
       shell: bash
       run: |
-          FIRST_PATH=$(cat ${{ inputs.path_list }} | cut -d " " -f 1)
-          REST_OF_PATHS=$(cat ${{ inputs.path_list }} | cut -d " " -f2-)
+          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
+          REST_OF_PATHS=$(echo "${{ inputs.path_list }}" | cut -d " " -f2-)
           echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
           echo "REST_OF_PATHS=$REST_OF_PATHS" >> $GITHUB_ENV
           
-          FIRST_NAME=$(cat ${{ inputs.name_list }} | cut -d " " -f 1)
-          REST_OF_NAMES=$(cat ${{ inputs.name_list }} | cut -d " " -f2-)
+          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
+          REST_OF_NAMES=$(echo "${{ inputs.name_list }}" | cut -d " " -f2-)
           echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
           echo "REST_OF_NAMES=$REST_OF_NAMES" >> $GITHUB_ENV
   
