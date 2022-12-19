@@ -1,3 +1,4 @@
+# Remember to update recursive call at bottom of this file.
 name: 'Save Data'
 description: 'Save a list of files with a list of keys'
 inputs:
@@ -41,7 +42,7 @@ runs:
       run: echo Cached the first path ${{ env.FIRST_PATH }} as ${{ env.FIRST_NAME }}.
 
     - name: test my example action 
-      uses: amhelderman/ci-github-action-save-data@v1
+      uses: amhelderman/ci-github-action-save-data@v6
       with:
         path_list: ${{ env.REST_OF_PATH_LIST }}
         name_list: ${{ env.REST_OF_NAME_LIST }}
