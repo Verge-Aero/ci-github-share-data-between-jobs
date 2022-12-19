@@ -32,6 +32,7 @@ runs:
   
     - name: Cache maestro directory
       uses: actions/cache@v3
+      if: "${{ env.FIRST_NAME != '' }}"
       env:
         cache-name: cache-maestro
       with:
@@ -42,6 +43,7 @@ runs:
       run: echo Cached the first path ${{ env.FIRST_PATH }} as ${{ env.FIRST_NAME }}.
 
     - name: test my example action 
+      if: "${{ env.REST_OF_PATHS != '' }}"
       uses: amhelderman/ci-github-action-save-data@v6
       with:
         path_list: ${{ env.REST_OF_PATH_LIST }}
