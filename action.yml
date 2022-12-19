@@ -44,7 +44,7 @@ runs:
 
     - name: test my example action 
       if: "${{ env.REST_OF_PATHS != '' }}"
-      uses: amhelderman/ci-github-action-save-data@v6
+      uses: amhelderman/ci-github-action-save-data@v7
       with:
         path_list: ${{ env.REST_OF_PATH_LIST }}
         name_list: ${{ env.REST_OF_NAME_LIST }}
