@@ -25,44 +25,72 @@ runs:
           FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
           SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
           THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
-          REST_OF_PATHS=$(echo "${{ inputs.path_list }}" | cut -d " " -f2-)
           echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
           echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
           echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
-          echo "REST_OF_PATHS=$REST_OF_PATHS" >> $GITHUB_ENV
 
           FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
           SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
           THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
-          REST_OF_NAMES=$(echo "${{ inputs.name_list }}" | cut -d " " -f2-)
           echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
           echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
           echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
-          echo "REST_OF_NAMES=$REST_OF_NAMES" >> $GITHUB_ENV
   
-    - name: Cache  ${{ env.FIRST_PATH }}
+    - name: Cache 1 ${{ env.FIRST_PATH }}
       uses: actions/cache@v3
       if: "${{ env.FIRST_NAME != '' }}"
-      env:
-        cache-name: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
       with:
         path: ${{ env.FIRST_PATH }}
         key: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
   
-    - name: Cache  ${{ env.SECOND_PATH }}
+
+    - name: Get first part of artifact and rest of artifact
+      shell: bash
+      run: |
+          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
+          SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
+          THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
+          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
+          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
+          echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
+
+          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
+          SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
+          THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
+          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
+          echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
+          echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
+
+    - name: Cache 2 ${{ env.SECOND_PATH }}
       uses: actions/cache@v3
       if: "${{ env.SECOND_PATH != '' }}"
-      env:
-        cache-name: cache-${{ env.SECOND_NAME }}-${{ github.run_id }}
       with:
         path: ${{ env.SECOND_PATH }}
         key: cache-${{ env.SECOND_NAME }}-${{ github.run_id }}
   
-    - name: Cache  ${{ env.THIRD_PATH }}
+
+
+    - name: Get first part of artifact and rest of artifact
+      shell: bash
+      run: |
+          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
+          SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
+          THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
+          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
+          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
+          echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
+
+          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
+          SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
+          THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
+          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
+          echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
+          echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
+
+
+    - name: Cache 3 ${{ env.THIRD_PATH }}
       uses: actions/cache@v3
       if: "${{ env.THIRD_PATH != '' }}"
-      env:
-        cache-name: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
       with:
         path: ${{ env.THIRD_PATH }}
         key: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
