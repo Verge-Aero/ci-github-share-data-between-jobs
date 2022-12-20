@@ -61,7 +61,14 @@ runs:
         key: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
         
     - shell: bash
-      run: echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
+      run: |
+        echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
+        echo ======= First path:
+        find ${{ env.FIRST_PATH }}
+        echo ======= Second path:
+        find ${{ env.SECOND_PATH }}
+        echo ======= Third path:
+        find ${{ env.THIRD_PATH }}
         
 
       
