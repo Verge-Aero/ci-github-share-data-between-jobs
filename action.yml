@@ -64,11 +64,11 @@ runs:
       run: |
         echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
         echo ======= First path:
-        find ${{ env.FIRST_PATH }}
+        find ${{ env.FIRST_PATH }} -maxdepth 1 -type d -printf '%f\n'
         echo ======= Second path:
-        find ${{ env.SECOND_PATH }}
+        find ${{ env.SECOND_PATH }} -maxdepth 1 -type d -printf '%f\n'
         echo ======= Third path:
-        find ${{ env.THIRD_PATH }}
+        find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n'
         
 
       
