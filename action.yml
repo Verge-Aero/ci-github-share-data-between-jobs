@@ -22,23 +22,21 @@ runs:
     - name: Get first part of artifact and rest of artifact
       shell: bash
       run: |
-          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
-          SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
-          THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
+          FIRST_PATH=$(echo "${{ inputs.path_list }}" | awk '{print $1}')
+          SECOND_PATH=$(echo "${{ inputs.path_list }}" |awk '{print $2}')
+          THIRD_PATH=$(echo "${{ inputs.path_list }}" | awk '{print $3}')
           echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
           echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
           echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
 
-          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
-          SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
-          THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
+          FIRST_NAME=$(echo "${{ inputs.name_list }}" | awk '{print $1}')
+          SECOND_NAME=$(echo "${{ inputs.name_list }}" | awk '{print $2}')
+          THIRD_NAME=$(echo "${{ inputs.name_list }}" |  awk '{print $3}')
           echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
           echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
           echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
-          echo "ENV IS: $GITHUB_ENV"
-          echo "a b c" | cut -d " " -f 1
-          echo "a b c" | cut -d " " -f 2
-          echo "a b c" | cut -d " " -f 3
+          echo "ENV IS:"
+          cat $GITHUB_ENV
   
     - name: Cache 1 ${{ env.FIRST_PATH }}
       uses: actions/cache@v3
