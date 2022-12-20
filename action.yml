@@ -35,6 +35,10 @@ runs:
           echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
           echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
           echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
+          echo "ENV IS: $GITHUB_ENV"
+          echo "a b c" | cut -d " " -f 1
+          echo "a b c" | cut -d " " -f 2
+          echo "a b c" | cut -d " " -f 3
   
     - name: Cache 1 ${{ env.FIRST_PATH }}
       uses: actions/cache@v3
