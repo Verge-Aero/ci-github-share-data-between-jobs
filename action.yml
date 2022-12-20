@@ -46,23 +46,6 @@ runs:
         key: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
   
 
-    - name: Get first part of artifact and rest of artifact
-      shell: bash
-      run: |
-          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
-          SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
-          THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
-          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
-          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
-          echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
-
-          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
-          SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
-          THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
-          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
-          echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
-          echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
-
     - name: Cache 2 ${{ env.SECOND_PATH }}
       uses: actions/cache@v3
       if: "${{ env.SECOND_PATH != '' }}"
@@ -70,26 +53,6 @@ runs:
         path: ${{ env.SECOND_PATH }}
         key: cache-${{ env.SECOND_NAME }}-${{ github.run_id }}
   
-
-
-    - name: Get first part of artifact and rest of artifact
-      shell: bash
-      run: |
-          FIRST_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 1)
-          SECOND_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 2)
-          THIRD_PATH=$(echo "${{ inputs.path_list }}" | cut -d " " -f 3)
-          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
-          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
-          echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
-
-          FIRST_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 1)
-          SECOND_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 2)
-          THIRD_NAME=$(echo "${{ inputs.name_list }}" | cut -d " " -f 3)
-          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
-          echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
-          echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
-
-
     - name: Cache 3 ${{ env.THIRD_PATH }}
       uses: actions/cache@v3
       if: "${{ env.THIRD_PATH != '' }}"
@@ -98,14 +61,7 @@ runs:
         key: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
         
     - shell: bash
-      run: echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }},.
-
-    # - name: test my example action 
-    #   if: "${{ env.REST_OF_PATHS != '' }}"
-    #   uses: amhelderman/ci-github-action-save-data@v7
-    #   with:
-    #     path_list: ${{ env.REST_OF_PATH_LIST }}
-    #     name_list: ${{ env.REST_OF_NAME_LIST }}
+      run: echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
         
 
       
