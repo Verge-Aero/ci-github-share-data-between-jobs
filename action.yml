@@ -2,20 +2,20 @@
 # actually is not possible.
 # Instead, let's handle up to 3 input paths.
 name: 'Save Data'
-description: 'Save a list of files with a list of keys'
+description: 'Save a list of up to 3 files with a list of keys'
 inputs:
-  path_list:  # id of input
+
+  path_list:
     description: 'List of file paths separated by spaces'
     required: true
     default: ''
-  name_list:  # id of input
+
+  name_list:
     description: 'List of names for each file separated by spaces'
     required: true
     default: ''
-#outputs:
-#  random-number:
-#    description: "Random number"
-#    value: ${{ steps.random-number-generator.outputs.random-number }}
+
+  
 runs:
   using: "composite"
   steps:
@@ -37,6 +37,35 @@ runs:
           echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
           echo "ENV IS:"
           cat $GITHUB_ENV
+
+
+          if [[ $(echo ${{ env.FIRST_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.FIRST_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.FIRST_PATH }} to save."
+              exit 101
+            fi
+          fi
+
+          if [[ $(echo ${{ env.SECOND_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.SECOND_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.SECOND_PATH }} to save."
+              exit 102
+            fi
+          fi
+          
+          if [[ $(echo ${{ env.THIRD_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.THIRD_PATH }} to save."
+              exit 103
+            fi
+          fi
+        
   
     - name: Cache 1 ${{ env.FIRST_PATH }}
       uses: actions/cache@v3
@@ -63,12 +92,5 @@ runs:
     - shell: bash
       run: |
         echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
-        echo ======= First path:
-        find ${{ env.FIRST_PATH }} -maxdepth 1 -type d -printf '%f\n'
-        echo ======= Second path:
-        find ${{ env.SECOND_PATH }} -maxdepth 1 -type d -printf '%f\n'
-        echo ======= Third path:
-        find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n'
-        
 
       
