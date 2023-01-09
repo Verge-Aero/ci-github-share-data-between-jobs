@@ -15,29 +15,38 @@ inputs:
     required: true
     default: ''
 
+  load:
+    description: "string true if loading and not saving"
+    required: true 
+    default: 'false'
   
 runs:
   using: "composite"
   steps:
-    - name: Get first part of artifact and rest of artifact
+    - name: Parse the inputs
       shell: bash
       run: |
-          FIRST_PATH=$(echo "${{ inputs.path_list }}" | awk '{print $1}')
-          SECOND_PATH=$(echo "${{ inputs.path_list }}" |awk '{print $2}')
-          THIRD_PATH=$(echo "${{ inputs.path_list }}" | awk '{print $3}')
-          echo "FIRST_PATH=$FIRST_PATH" >> $GITHUB_ENV
-          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
-          echo "THIRD_PATH=$THIRD_PATH" >> $GITHUB_ENV
-
-          FIRST_NAME=$(echo "${{ inputs.name_list }}" | awk '{print $1}')
+          FIRST_PATH=$(echo "${{ inputs.path_list }}"  | awk '{print $1}')
+          SECOND_PATH=$(echo "${{ inputs.path_list }}" | awk '{print $2}')
+          THIRD_PATH=$(echo "${{ inputs.path_list }}"  | awk '{print $3}')
+          FIRST_NAME=$(echo "${{ inputs.name_list }}"  | awk '{print $1}')
           SECOND_NAME=$(echo "${{ inputs.name_list }}" | awk '{print $2}')
-          THIRD_NAME=$(echo "${{ inputs.name_list }}" |  awk '{print $3}')
-          echo "FIRST_NAME=$FIRST_NAME" >> $GITHUB_ENV
+          THIRD_NAME=$(echo "${{ inputs.name_list }}"  | awk '{print $3}')
+
+          echo "FIRST_PATH=$FIRST_PATH"   >> $GITHUB_ENV
+          echo "SECOND_PATH=$SECOND_PATH" >> $GITHUB_ENV
+          echo "THIRD_PATH=$THIRD_PATH"   >> $GITHUB_ENV
+          echo "FIRST_NAME=$FIRST_NAME"   >> $GITHUB_ENV
           echo "SECOND_NAME=$SECOND_NAME" >> $GITHUB_ENV
-          echo "THIRD_NAME=$THIRD_NAME" >> $GITHUB_ENV
+          echo "THIRD_NAME=$THIRD_NAME"   >> $GITHUB_ENV
+
           echo "ENV IS:"
           cat $GITHUB_ENV
 
+    - name: Confirm paths to save contain files.
+      if: ${{ inputs.load  == 'false' }}
+      shell: bash
+      run: |
 
           if [[ $(echo ${{ env.FIRST_PATH }} | wc -w ) -gt 0 ]]
           then
@@ -89,8 +98,37 @@ runs:
         path: ${{ env.THIRD_PATH }}
         key: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
         
-    - shell: bash
-      run: |
-        echo Cached ${{ env.FIRST_NAME }},  ${{ env.SECOND_NAME }},  ${{ env.THIRD_NAME }}.
 
-      
+    - name: Confirm loaded path contains files
+      if: ${{ inputs.load  == 'true' }}
+      shell: bash
+      run: |
+
+          if [[ $(echo ${{ env.FIRST_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.FIRST_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.FIRST_PATH }} to load."
+              exit 104
+            fi
+          fi
+
+          if [[ $(echo ${{ env.SECOND_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.SECOND_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.SECOND_PATH }} to load."
+              exit 105
+            fi
+          fi
+          
+          if [[ $(echo ${{ env.THIRD_PATH }} | wc -w ) -gt 0 ]]
+          then
+            if [[ $(find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
+            then
+              echo "Nothing was found at ${{ env.THIRD_PATH }} to load."
+              exit 106
+            fi
+          fi
+        
+  
