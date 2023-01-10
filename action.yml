@@ -77,7 +77,7 @@ runs:
         
   
     - name: Cache 1 ${{ env.FIRST_PATH }}
-      uses: actions/cache@v3
+      uses: pat-s/always-upload-cache@v3.0.11
       if: "${{ env.FIRST_NAME != '' }}"
       with:
         path: ${{ env.FIRST_PATH }}
@@ -85,14 +85,14 @@ runs:
   
 
     - name: Cache 2 ${{ env.SECOND_PATH }}
-      uses: actions/cache@v3
+      uses: pat-s/always-upload-cache@v3.0.11
       if: "${{ env.SECOND_PATH != '' }}"
       with:
         path: ${{ env.SECOND_PATH }}
         key: cache-${{ env.SECOND_NAME }}-${{ github.run_id }}
   
     - name: Cache 3 ${{ env.THIRD_PATH }}
-      uses: actions/cache@v3
+      uses: pat-s/always-upload-cache@v3.0.11
       if: "${{ env.THIRD_PATH != '' }}"
       with:
         path: ${{ env.THIRD_PATH }}
