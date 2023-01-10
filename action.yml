@@ -52,8 +52,9 @@ runs:
           then
             if [[ $(find ${{ env.FIRST_PATH }} | wc -l ) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.FIRST_PATH }} to save."
-              exit 101
+              echo "::warning ::Nothing was found at ${{ env.FIRST_PATH }} to load."
+              #echo "Nothing was found at ${{ env.FIRST_PATH }} to save."
+              #exit 101
             fi
           fi
 
@@ -61,8 +62,9 @@ runs:
           then
             if [[ $(find ${{ env.SECOND_PATH }}  | wc -l) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.SECOND_PATH }} to save."
-              exit 102
+              echo "::warning ::Nothing was found at ${{ env.SECOND_PATH }} to load."
+              # echo "Nothing was found at ${{ env.SECOND_PATH }} to save."
+              # exit 102
             fi
           fi
           
@@ -70,8 +72,9 @@ runs:
           then
             if [[ $(find ${{ env.THIRD_PATH }} | wc -l) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.THIRD_PATH }} to save."
-              exit 103
+              echo "::warning ::Nothing was found at ${{ env.THIRD_PATH }} to load."
+              # echo "Nothing was found at ${{ env.THIRD_PATH }} to save."
+              # exit 103
             fi
           fi
         
@@ -108,8 +111,10 @@ runs:
           then
             if [[ $(find ${{ env.FIRST_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.FIRST_PATH }} to load."
-              exit 104
+              # ::warning file={name},line={line},endLine={endLine},title={title}::{message}
+              echo "::notice file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
+              echo "::warning ::Nothing was found at ${{ env.FIRST_PATH }} to load."
+              #exit 104
             fi
           fi
 
@@ -117,8 +122,8 @@ runs:
           then
             if [[ $(find ${{ env.SECOND_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.SECOND_PATH }} to load."
-              exit 105
+              echo "::warning ::Nothing was found at ${{ env.SECOND_PATH }} to load."
+              #exit 105
             fi
           fi
           
@@ -126,8 +131,9 @@ runs:
           then
             if [[ $(find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
             then
-              echo "Nothing was found at ${{ env.THIRD_PATH }} to load."
-              exit 106
+              echo "::warning ::Nothing was found at ${{ env.THIRD_PATH }} to load."
+              #echo "Nothing was found at ${{ env.THIRD_PATH }} to load."
+              #exit 106
             fi
           fi
         
