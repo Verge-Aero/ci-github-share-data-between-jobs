@@ -1,8 +1,8 @@
 # Used to be recursive but Github doesn't cache action downloads so recursion 
 # actually is not possible.
 # Instead, let's handle up to 3 input paths.
-name: 'Save Data'
-description: 'Save a list of up to 3 files with a list of keys'
+name: 'Share Data Between Jobs'
+description: 'Use this action as a step to save up to 3 files, or load up to three files given their keys/names'
 inputs:
 
   path_list:
