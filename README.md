@@ -40,5 +40,6 @@ Then from Job B, you can add the following step.
 The result is that after this step runs, Job B will have a copy of that same file.
 
 # Pitfalls
+* Since recursion and loops aren't allowed in Github Action files, this was designed only to handle lists of up to 3 items.
 * Since this takes advantage of Github Action caches, you can't overwrite an existing key.
 * If you want to share a directory, which can be written in various ways (with or without trailing backslash, for example) it's important to ensure you stick to a convention.
