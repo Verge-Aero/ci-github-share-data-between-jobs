@@ -6,7 +6,8 @@ Since jobs can run in different environments, this can be very useful.
 # Inputs
 There's a `path_list` and a `name_list` which are related to each other.
 
-The inputs are strings which contain a list of paths to the files you want to save. The list is encoded using space delimiters.
+The inputs are strings which contain a list of paths to the files you want to save. The list is encoded using space delimiters (ie `a b c d`).
+
 There's an input name_list which should be renamed as a "key_list". These keys dictate the key under which the corresponding file will be stored.
 
 # Usage
@@ -17,8 +18,8 @@ In Job A, use this step:
        - name: Save my favorite files
          uses: Verge-Aero/ci-github-share-data-between-jobs@main
          with:
-           path_list: 'README.md ./a/path/to/another/file.txt'
-           name_list: 'myReadme otherSpecialFile'
+           path_list: 'README.md ./a/path/to/another/file.txt ./path/to/directory/'
+           name_list: 'myReadme otherSpecialFile directoriesWorkToo'
 ```
 The first item of the `path_list` corresponds with the first item of the `name_list`, and so on.
 
@@ -32,8 +33,8 @@ Then from Job B, you can add the following step.
        - name: Load data
          uses: Verge-Aero/ci-github-share-data-between-jobs@main
          with:
-           path_list: 'README.md ./a/path/to/another/file.txt'
-           name_list: 'myReadme otherSpecialFile'
+           path_list: 'README.md ./a/path/to/another/file.txt ./path/to/directory/'
+           name_list: 'myReadme otherSpecialFile directoriesWorkToo'
            load: true
 ```
 
