@@ -1,4 +1,4 @@
-# Used to be recursive but Github doesn't cache action downloads so recursion 
+# Used to be recursive but Github doesn't cache action downloads so recursion
 # actually is not possible.
 # Instead, let's handle up to 3 input paths.
 name: 'Share Data Between Jobs'
@@ -17,9 +17,9 @@ inputs:
 
   load:
     description: "string true if loading and not saving"
-    required: true 
+    required: true
     default: 'false'
-  
+
 runs:
   using: "composite"
   steps:
@@ -67,7 +67,7 @@ runs:
               # exit 102
             fi
           fi
-          
+
           if [[ $(echo ${{ env.THIRD_PATH }} | wc -w ) -gt 0 ]]
           then
             if [[ $(find ${{ env.THIRD_PATH }} | wc -l) -eq 0 ]]
@@ -77,30 +77,30 @@ runs:
               # exit 103
             fi
           fi
-        
-  
+
+
     - name: Cache 1 ${{ env.FIRST_PATH }}
-      uses: pat-s/always-upload-cache@v3.0.11
+      uses: actions/cache@v3
       if: "${{ env.FIRST_NAME != '' }}"
       with:
         path: ${{ env.FIRST_PATH }}
         key: cache-${{ env.FIRST_NAME }}-${{ github.run_id }}
-  
+
 
     - name: Cache 2 ${{ env.SECOND_PATH }}
-      uses: pat-s/always-upload-cache@v3.0.11
+      uses: actions/cache@v3
       if: "${{ env.SECOND_PATH != '' }}"
       with:
         path: ${{ env.SECOND_PATH }}
         key: cache-${{ env.SECOND_NAME }}-${{ github.run_id }}
-  
+
     - name: Cache 3 ${{ env.THIRD_PATH }}
-      uses: pat-s/always-upload-cache@v3.0.11
+      uses: actions/cache@v3
       if: "${{ env.THIRD_PATH != '' }}"
       with:
         path: ${{ env.THIRD_PATH }}
         key: cache-${{ env.THIRD_NAME }}-${{ github.run_id }}
-        
+
 
     - name: Confirm loaded path contains files
       if: ${{ inputs.load  == 'true' }}
@@ -126,7 +126,7 @@ runs:
               #exit 105
             fi
           fi
-          
+
           if [[ $(echo ${{ env.THIRD_PATH }} | wc -w ) -gt 0 ]]
           then
             if [[ $(find ${{ env.THIRD_PATH }} -maxdepth 1 -type d -printf '%f\n' | wc -w ) -eq 0 ]]
@@ -136,5 +136,4 @@ runs:
               #exit 106
             fi
           fi
-        
-  
+
